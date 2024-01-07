@@ -17,7 +17,11 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'last_name', 'email', 'password',
+        'name',
+        'last_name',
+        'email',
+        'password',
+        'role',
     ];
 
     /**
@@ -61,5 +65,15 @@ class User extends Authenticatable
     public function setPasswordAttribute($value)
     {
         $this->attributes['password'] = bcrypt($value);
+    }
+
+    public function rentals()
+    {
+        return $this->hasMany(Rental::class);
+    }
+
+    public function payments()
+    {
+        return $this->hasManyThrough(Payment::class, Rental::class);
     }
 }
